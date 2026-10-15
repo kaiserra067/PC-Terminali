@@ -1,0 +1,140 @@
+<UserControl x:Class="TemizlikPaneli.Views.GamesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="32,26,32,32">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" x:Name="RefreshButton" Click="Refresh_Click" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource Icon}" Text="&#xE72C;" Margin="0,0,8,0" />
+                        <TextBlock Text="Yenile" />
+                    </StackPanel>
+                </Button>
+                <StackPanel>
+                    <TextBlock Text="Oyunlar" Style="{StaticResource PageTitle}" />
+                    <TextBlock Text="Steam, Epic Games, Riot, Battle.net, EA, Ubisoft, GOG, Xbox ve Minecraft oyunlarınız. Kaldırma her platformun kendi yöntemiyle yapılır."
+                               Style="{StaticResource PageSubtitle}" />
+                </StackPanel>
+            </DockPanel>
+
+            <!-- Özet -->
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Card}">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Oyunların kapladığı alan" Style="{StaticResource Label}" />
+                        <TextBlock x:Name="TotalText" Text="…" Style="{StaticResource Hero}" Margin="0,2,0,0" />
+                        <TextBlock x:Name="TotalSub" Style="{StaticResource Secondary}" TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Platformlara göre" Style="{StaticResource SectionTitle}" />
+                        <ItemsControl x:Name="PlatformBars" ItemTemplate="{StaticResource BarRowTemplate}" Margin="0,12,0,-12" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Filtreler -->
+            <DockPanel Margin="0,20,0,12">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <TextBox x:Name="SearchBox" Style="{StaticResource SearchBox}" Width="200" Tag="Oyun ara" TextChanged="Search_Changed" />
+                    <ComboBox x:Name="SortCombo" Width="160" Margin="8,0,0,0" SelectionChanged="Sort_Changed">
+                        <ComboBoxItem Content="Boyuta göre" IsSelected="True" />
+                        <ComboBoxItem Content="Ada göre" />
+                        <ComboBoxItem Content="Son oynamaya göre" />
+                    </ComboBox>
+                </StackPanel>
+                <WrapPanel x:Name="Chips" VerticalAlignment="Center" />
+            </DockPanel>
+
+            <TextBlock x:Name="EmptyText" Text="Oyunlar aranıyor…" Foreground="{DynamicResource TextMuted}" Margin="4,8" />
+
+            <!-- Oyun kartları -->
+            <ItemsControl x:Name="Cards" Margin="-8,0,-8,0" SizeChanged="Cards_SizeChanged">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding CardColumns, RelativeSource={RelativeSource AncestorType=UserControl}}" VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="8" CornerRadius="10" Background="{DynamicResource SurfaceBg}" BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="1">
+                            <StackPanel>
+                                <Border Height="129" CornerRadius="9,9,0,0" Background="{DynamicResource Surface3Bg}">
+                                    <Grid>
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Image Source="{Binding Icon}" Width="44" Height="44" RenderOptions.BitmapScalingMode="HighQuality" />
+                                            <TextBlock Text="{Binding Initial}" FontSize="34" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" HorizontalAlignment="Center"
+                                                       Visibility="{Binding Icon, Converter={StaticResource InvVis}}" />
+                                        </StackPanel>
+                                        <Border CornerRadius="9,9,0,0" Visibility="{Binding Cover, Converter={StaticResource Vis}}">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Cover}" Stretch="UniformToFill" />
+                                            </Border.Background>
+                                        </Border>
+                                        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Background="#C8101010" CornerRadius="4" Padding="7,2,7,3">
+                                            <TextBlock Text="{Binding Platform}" Foreground="White" FontSize="11" FontWeight="SemiBold" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <StackPanel Margin="14,12,14,14">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                        <TextBlock Text="{Binding SizeText}" FontWeight="SemiBold" FontSize="13" />
+                                        <TextBlock Text="{Binding DetailText}" Style="{StaticResource Label}" Margin="8,1,0,0" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding LastPlayedText}" Style="{StaticResource Label}" Margin="0,3,0,0" Height="16" />
+                                    <DockPanel Margin="0,10,0,0">
+                                        <Button DockPanel.Dock="Right" Style="{StaticResource IconButton}" Content="&#xE712;" ToolTip="Diğer işlemler" Click="More_Click">
+                                            <Button.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Oyun klasörünü aç" Tag="&#xE838;" Click="OpenFolder_Click" />
+                                                    <MenuItem Header="Gölgelendirici önbelleğini temizle" Tag="&#xE74D;" Click="ClearShader_Click" />
+                                                    <MenuItem Header="Atölye (Workshop) içeriğini sil" Tag="&#xE74D;" Click="ClearWorkshop_Click" />
+                                                </ContextMenu>
+                                            </Button.ContextMenu>
+                                        </Button>
+                                        <Button Content="Kaldır" HorizontalAlignment="Left" Padding="14,5" FontSize="12.5" Click="Remove_Click" ToolTip="{Binding Warning}" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Sahipsiz klasörler -->
+            <Border x:Name="OrphanCard" Style="{StaticResource Card}" Margin="0,16,0,0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="Kaldırılmış oyunlardan kalan klasörler" Style="{StaticResource SectionTitle}" />
+                    <TextBlock Text="Steam kütüphanesinde artık hiçbir oyuna ait olmayan klasörler. Genelde eski oyunların ayar, mod ya da kayıt artıklarıdır."
+                               Style="{StaticResource PageSubtitle}" />
+                    <ItemsControl x:Name="OrphanList" Margin="0,12,0,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Path}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip="{Binding Path}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding SizeText}" Style="{StaticResource Num}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="12,0,0,0">
+                                        <Button Style="{StaticResource IconButton}" Content="&#xE838;" ToolTip="Klasörü aç" Click="OrphanOpen_Click" />
+                                        <Button Content="Sil" Padding="12,4" FontSize="12.5" Margin="4,0,0,0" Click="OrphanDelete_Click" />
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

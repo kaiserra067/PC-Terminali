@@ -1,0 +1,109 @@
+<UserControl x:Class="TemizlikPaneli.Views.LargeFilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="32,26,32,24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Büyük dosyalar" Style="{StaticResource PageTitle}" />
+            <TextBlock Style="{StaticResource PageSubtitle}"
+                       Text="Diskteki en büyük dosyalar. Unutulmuş videolar, disk görüntüleri ve eski kurulum dosyaları genelde burada çıkar. Programlara ve oyunlara ait dosyalar kilitlidir; onları Uygulamalar ve Oyunlar bölümünden kaldırın." />
+        </StackPanel>
+
+        <DockPanel Grid.Row="1" Margin="0,18,0,0">
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="RootCombo" Width="240" DisplayMemberPath="Label" />
+                <Button Margin="8,0,0,0" Click="Browse_Click" Content="Klasör seç" />
+                <TextBlock Text="En az" Style="{StaticResource Label}" VerticalAlignment="Center" Margin="16,0,8,0" />
+                <ComboBox x:Name="MinCombo" Width="110">
+                    <ComboBoxItem Content="100 MB" Tag="100" />
+                    <ComboBoxItem Content="250 MB" Tag="250" />
+                    <ComboBoxItem Content="500 MB" Tag="500" IsSelected="True" />
+                    <ComboBoxItem Content="1 GB" Tag="1024" />
+                    <ComboBoxItem Content="5 GB" Tag="5120" />
+                </ComboBox>
+                <Button x:Name="ScanButton" Style="{StaticResource PrimaryButton}" Margin="8,0,0,0" Click="Scan_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource Icon}" Text="&#xE721;" Margin="0,0,8,0" />
+                        <TextBlock Text="Ara" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <TextBox x:Name="SearchBox" Style="{StaticResource SearchBox}" Width="220" Tag="Dosya adı ara" HorizontalAlignment="Right" TextChanged="Filter_Changed" />
+        </DockPanel>
+
+        <DockPanel Grid.Row="2" Margin="0,14,0,10">
+            <CheckBox x:Name="ShowLocked" DockPanel.Dock="Right" Content="Programlara ait dosyaları da göster" Click="Filter_Changed" />
+            <WrapPanel x:Name="Chips" />
+        </DockPanel>
+
+        <Border Grid.Row="3" Style="{StaticResource Card}" Padding="8">
+            <Grid>
+                <ListBox x:Name="List" Style="{StaticResource PlainList}" MouseDoubleClick="List_DoubleClick">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ToolTip="{Binding Path}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="34" />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="170" />
+                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="96" />
+                                    <ColumnDefinition Width="40" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" IsEnabled="{Binding CanDelete}" Click="Check_Click" />
+                                <TextBlock Grid.Column="1" Text="{Binding Glyph}" Style="{StaticResource Icon}" FontSize="16" Foreground="{DynamicResource TextSecondary}" />
+                                <StackPanel Grid.Column="2" Margin="0,0,12,0">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding Folder}" Style="{StaticResource Secondary}" Margin="0,2,0,0" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding KindName}" FontSize="12" Foreground="{DynamicResource TextSecondary}" />
+                                    <TextBlock Text="{Binding Note}" Style="{StaticResource Label}" Visibility="{Binding Note, Converter={StaticResource Vis}}" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="4" VerticalAlignment="Center" Margin="0,0,16,0">
+                                    <TextBlock Text="{Binding SizeText}" Style="{StaticResource Num}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                                    <Grid Height="6" Margin="0,6,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="{Binding Fraction, Converter={StaticResource Star}}" />
+                                            <ColumnDefinition Width="{Binding Fraction, Converter={StaticResource InvStar}}" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Background="{DynamicResource Series1}" CornerRadius="0,3,3,0" />
+                                    </Grid>
+                                </StackPanel>
+                                <TextBlock Grid.Column="5" Text="{Binding DateText}" Style="{StaticResource Num}" HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondary}" />
+                                <Button Grid.Column="6" Style="{StaticResource IconButton}" Content="&#xE838;" ToolTip="Dosya Gezgini'nde göster" HorizontalAlignment="Right" Click="Reveal_Click" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel x:Name="ProgressPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="420" Visibility="Collapsed">
+                    <ProgressBar IsIndeterminate="True" Height="4" />
+                    <TextBlock x:Name="ProgressText" Style="{StaticResource Label}" Margin="0,8,0,0" TextAlignment="Center" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+                <TextBlock x:Name="EmptyText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextMuted}"
+                           Text="Bir konum ve en küçük boyutu seçip Ara'ya basın." />
+            </Grid>
+        </Border>
+
+        <DockPanel Grid.Row="4" Margin="0,14,0,0">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button x:Name="RecycleButton" Content="Geri Dönüşüm Kutusu'na taşı" Click="Recycle_Click" />
+                <Button x:Name="DeleteButton" Style="{StaticResource DangerButton}" Margin="8,0,0,0" Click="Delete_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource Icon}" Text="&#xE74D;" Margin="0,0,8,0" />
+                        <TextBlock Text="Kalıcı olarak sil" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <TextBlock x:Name="SummaryText" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}" />
+        </DockPanel>
+    </Grid>
+</UserControl>

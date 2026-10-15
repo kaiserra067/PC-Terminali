@@ -1,0 +1,64 @@
+<Window x:Class="TemizlikPaneli.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PC Terminali" Width="1320" Height="860" MinWidth="1040" MinHeight="660"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource WindowBg}" Foreground="{DynamicResource TextPrimary}"
+        FontFamily="{StaticResource UiFont}" FontSize="13"
+        TextOptions.TextFormattingMode="Display" UseLayoutRounding="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="236" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Kenar çubuğu -->
+        <Border Background="{DynamicResource SidebarBg}" BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,0,1,0">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="22,20,16,16">
+                    <Image x:Name="LogoImage" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <StackPanel Margin="11,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="PC Terminali" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="Temizlik · uygulamalar · medya" FontSize="11.5" Foreground="{DynamicResource TextMuted}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <Border DockPanel.Dock="Bottom" Margin="14,8,14,16" Padding="14,12" CornerRadius="8" Background="{DynamicResource Surface2Bg}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="AdminIcon" Style="{StaticResource Icon}" Text="&#xEA18;" FontSize="14" />
+                            <TextBlock x:Name="AdminText" Margin="8,0,0,0" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <TextBlock x:Name="AdminHint" Margin="0,6,0,0" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextMuted}" />
+                        <Button x:Name="ElevateButton" Margin="0,10,0,0" Style="{StaticResource SecondaryButton}" Padding="10,6" FontSize="12"
+                                Content="Yönetici olarak yeniden başlat" Click="Elevate_Click" />
+                    </StackPanel>
+                </Border>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="Nav">
+                        <TextBlock Text="GENEL" Margin="24,4,0,6" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE80F;" Content="Genel bakış" x:Name="NavDashboard" CommandParameter="dashboard" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xEDA2;" Content="Disk analizi" CommandParameter="analyzer" Checked="Nav_Checked" />
+                        <TextBlock Text="KALDIR" Margin="24,12,0,4" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE71D;" Content="Uygulamalar" CommandParameter="apps" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE7FC;" Content="Oyunlar" CommandParameter="games" Checked="Nav_Checked" />
+                        <TextBlock Text="TEMİZLE" Margin="24,12,0,4" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE74D;" Content="Gereksiz dosyalar" CommandParameter="junk" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xEA86;" Content="Kalıntılar" CommandParameter="leftovers" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE7C3;" Content="Büyük dosyalar" CommandParameter="large" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE8C8;" Content="Yinelenen dosyalar" CommandParameter="dupes" Checked="Nav_Checked" />
+                        <TextBlock Text="MEDYA" Margin="24,12,0,4" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE896;" Content="Medya indirici" CommandParameter="media" Checked="Nav_Checked" />
+                        <TextBlock Text="DİĞER" Margin="24,12,0,4" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE81C;" Content="İşlem geçmişi" CommandParameter="history" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE713;" Content="Ayarlar" CommandParameter="settings" Checked="Nav_Checked" />
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <!-- Sayfa alanı -->
+        <ContentControl x:Name="PageHost" Grid.Column="1" Focusable="False" />
+    </Grid>
+</Window>

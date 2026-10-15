@@ -1,0 +1,36 @@
+<UserControl x:Class="TemizlikPaneli.Views.LeftoverList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ListBox x:Name="List" Style="{StaticResource PlainList}" SelectionMode="Single">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="34" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="36" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" IsEnabled="{Binding CanAct}" VerticalAlignment="Center"
+                              ToolTip="{Binding AdminTip}" Click="Check_Click" />
+                    <TextBlock Grid.Column="1" Text="{Binding Glyph}" Style="{StaticResource Icon}" FontSize="16" Foreground="{DynamicResource TextSecondary}" />
+                    <StackPanel Grid.Column="2" Margin="0,0,12,0">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding Path}" Style="{StaticResource Secondary}" Margin="0,2,0,0" ToolTip="{Binding Path}" />
+                        <TextBlock Text="{Binding Reason}" Style="{StaticResource Label}" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Reason}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Ellipse Width="8" Height="8" Fill="{Binding ConfidenceBrush}" Margin="0,0,7,0" />
+                        <TextBlock Text="{Binding ConfidenceText}" FontSize="12" Foreground="{DynamicResource TextSecondary}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="4" Text="{Binding SizeText}" Style="{StaticResource Num}" HorizontalAlignment="Right" FontWeight="SemiBold" />
+                    <TextBlock Grid.Column="5" Text="{Binding DateText}" Style="{StaticResource Num}" HorizontalAlignment="Right" Foreground="{DynamicResource TextSecondary}" />
+                    <Button Grid.Column="6" Style="{StaticResource IconButton}" Content="&#xE838;" ToolTip="Konumu aç" Click="Reveal_Click" HorizontalAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

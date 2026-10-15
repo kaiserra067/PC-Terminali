@@ -1,0 +1,7 @@
+bin/
+obj/
+yayin/
+yayin-*/
+dagitim/
+*.user
+.vs/

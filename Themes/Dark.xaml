@@ -1,0 +1,46 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Koyu tema: yüzeyler ve mürekkep -->
+    <SolidColorBrush x:Key="WindowBg" Color="#0F0F0E" />
+    <SolidColorBrush x:Key="SidebarBg" Color="#151514" />
+    <SolidColorBrush x:Key="SurfaceBg" Color="#1A1A19" />
+    <SolidColorBrush x:Key="Surface2Bg" Color="#232321" />
+    <SolidColorBrush x:Key="Surface3Bg" Color="#2C2C2A" />
+    <SolidColorBrush x:Key="BorderBrush" Color="#2C2C2A" />
+    <SolidColorBrush x:Key="HairlineBrush" Color="#1AFFFFFF" />
+    <SolidColorBrush x:Key="TextPrimary" Color="#F0EFEC" />
+    <SolidColorBrush x:Key="TextSecondary" Color="#C3C2B7" />
+    <SolidColorBrush x:Key="TextMuted" Color="#898781" />
+    <SolidColorBrush x:Key="TextOnAccent" Color="#FFFFFF" />
+
+    <!-- Vurgu (düğmeler, seçim) -->
+    <SolidColorBrush x:Key="AccentBrush" Color="#2A78D6" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#3987E5" />
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="#256ABF" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#1F3987E5" />
+    <SolidColorBrush x:Key="AccentTextBrush" Color="#86B6EF" />
+
+    <!-- Durum renkleri (her zaman simge + metinle birlikte) -->
+    <SolidColorBrush x:Key="GoodBrush" Color="#0CA30C" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#FAB219" />
+    <SolidColorBrush x:Key="SeriousBrush" Color="#EC835A" />
+    <SolidColorBrush x:Key="CriticalBrush" Color="#D03B3B" />
+    <SolidColorBrush x:Key="DangerHoverBrush" Color="#DE5050" />
+    <SolidColorBrush x:Key="GoodSoftBrush" Color="#1F0CA30C" />
+    <SolidColorBrush x:Key="WarningSoftBrush" Color="#1FFAB219" />
+    <SolidColorBrush x:Key="CriticalSoftBrush" Color="#26D03B3B" />
+    <SolidColorBrush x:Key="GoodTextBrush" Color="#0CA30C" />
+
+    <!-- Grafik: sabit sıralı kategorik palet (koyu tema adımları) -->
+    <SolidColorBrush x:Key="Series1" Color="#3987E5" />
+    <SolidColorBrush x:Key="Series2" Color="#D95926" />
+    <SolidColorBrush x:Key="Series3" Color="#199E70" />
+    <SolidColorBrush x:Key="Series4" Color="#C98500" />
+    <SolidColorBrush x:Key="Series5" Color="#D55181" />
+    <SolidColorBrush x:Key="Series6" Color="#008300" />
+    <SolidColorBrush x:Key="Series7" Color="#9085E9" />
+    <SolidColorBrush x:Key="Series8" Color="#E66767" />
+    <SolidColorBrush x:Key="MeterTrack" Color="#104281" />
+    <SolidColorBrush x:Key="NeutralMark" Color="#383835" />
+    <SolidColorBrush x:Key="ChartSurface" Color="#1A1A19" />
+</ResourceDictionary>
