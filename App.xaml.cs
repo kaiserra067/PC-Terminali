@@ -22,6 +22,22 @@ public partial class App : Application
             ? (args[ti + 1] == "light" ? ThemeChoice.Light : ThemeChoice.Dark)
             : AppSettings.Current.Theme);
 
+        if (args.Length >= 2 && args[0] == "--diag-hw")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            try { await Task.Run(() => HwDiag.Run(args[1])); }
+            catch (Exception ex) { File.AppendAllText(args[1], "\nHATA: " + ex); }
+            Shutdown();
+            return;
+        }
+        if (args.Length >= 2 && args[0] == "--selftest-hw")
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            try { await SelfTest.RunHardwareTestAsync(args[1]); }
+            catch (Exception ex) { File.WriteAllText(args[1], "HATA: " + ex); }
+            Shutdown();
+            return;
+        }
         if (args.Length >= 3 && args[0] == "--selftest-media")
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;

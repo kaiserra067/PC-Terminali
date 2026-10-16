@@ -126,6 +126,7 @@ public partial class MainWindow : Window
     {
         "dashboard" => new DashboardView(),
         "analyzer" => new AnalyzerView(),
+        "monitor" => new MonitorView(),
         "apps" => new AppsView(),
         "games" => new GamesView(),
         "junk" => new JunkView(),

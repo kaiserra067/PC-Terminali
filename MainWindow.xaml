@@ -19,7 +19,7 @@
                     <Image x:Name="LogoImage" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality" />
                     <StackPanel Margin="11,0,0,0" VerticalAlignment="Center">
                         <TextBlock Text="PC Terminali" FontSize="15" FontWeight="SemiBold" />
-                        <TextBlock Text="Temizlik · uygulamalar · medya" FontSize="11.5" Foreground="{DynamicResource TextMuted}" />
+                        <TextBlock Text="Bilgisayar yönetimi" FontSize="11.5" Foreground="{DynamicResource TextMuted}" />
                     </StackPanel>
                 </StackPanel>
 
@@ -39,6 +39,7 @@
                     <StackPanel x:Name="Nav">
                         <TextBlock Text="GENEL" Margin="24,4,0,6" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE80F;" Content="Genel bakış" x:Name="NavDashboard" CommandParameter="dashboard" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE9D9;" Content="Donanım izleyici" CommandParameter="monitor" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xEDA2;" Content="Disk analizi" CommandParameter="analyzer" Checked="Nav_Checked" />
                         <TextBlock Text="KALDIR" Margin="24,12,0,4" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource TextMuted}" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE71D;" Content="Uygulamalar" CommandParameter="apps" Checked="Nav_Checked" />

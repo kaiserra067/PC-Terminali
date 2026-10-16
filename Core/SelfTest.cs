@@ -228,6 +228,31 @@ public static class SelfTest
         W($"\nBitti ({sw.Elapsed.TotalSeconds:0} sn).");
     }
 
+    /// <summary>Donanım sensörlerini birkaç kez okuyup yazar.</summary>
+    public static async Task RunHardwareTestAsync(string outFile)
+    {
+        var sb = new StringBuilder();
+        using var hm = new HardwareMonitor();
+        var sw = Stopwatch.StartNew();
+        await Task.Run(hm.Start);
+        sb.AppendLine($"Başlatma: {sw.ElapsedMilliseconds} ms · yönetici={Admin.IsElevated} · PawnIO={HardwareMonitor.PawnIoInstalled}");
+        for (int i = 0; i < 4; i++)
+        {
+            await Task.Delay(1000);
+            var s = await Task.Run(hm.Sample);
+            sb.AppendLine($"\n#{i} seviye={s.Level}");
+            sb.AppendLine($"  CPU {s.CpuName} · {s.Cores}C/{s.Threads}T · %{s.CpuUsage:0.0} · {s.CpuClockMHz:0} MHz (taban {s.CpuBaseMHz:0}) · sıcaklık={s.CpuTemp?.ToString("0.0") ?? "yok"} · güç={s.CpuPowerW?.ToString("0.0") ?? "yok"}");
+            sb.AppendLine($"  Çekirdekler ({s.CoreUsage.Length}): " + string.Join(" ", s.CoreUsage.Select(c => c.ToString("0"))));
+            sb.AppendLine($"  GPU {s.GpuName} · %{s.GpuUsage?.ToString("0.0") ?? "yok"} · sıcaklık={s.GpuTemp?.ToString("0.0") ?? "yok"} · çekirdek={s.GpuCoreMHz?.ToString("0") ?? "yok"} MHz · bellek={s.GpuMemMHz?.ToString("0") ?? "yok"} MHz · fan={s.GpuFanRpm?.ToString("0") ?? "yok"} · güç %{s.GpuPowerPct?.ToString("0.0") ?? "yok"} · VRAM {Fmt.Size(s.VramUsed)}/{Fmt.Size(s.VramTotal)}");
+            sb.AppendLine($"  RAM {s.RamModuleName} · {Fmt.Size(s.RamUsed)}/{Fmt.Size(s.RamTotal)} · {s.RamType} {s.RamSpeedMTs} MT/s · {s.RamModules} modül · çip={s.RamDetails?.DramVendor ?? "yok"} · CL={s.RamDetails?.CL?.ToString() ?? "yok"}");
+            var g = s.GpuTuning;
+            sb.AppendLine($"  GPU ayar: volt={g?.VoltageOffsetMV?.ToString() ?? "yok"} mV · güç={g?.PowerLimitPct?.ToString() ?? "yok"}% · frekans ofset={g?.ClockOffsetMHz?.ToString() ?? "yok"} · VRAM={g?.VramMaxMHz?.ToString() ?? "yok"} · sıfır devir={g?.ZeroRpm}");
+            var c = s.CpuTuning;
+            sb.AppendLine($"  CPU ayar: PPT={c?.PptLimitW.ToString() ?? "yok"} · akım={c?.CurrentLimitA.ToString() ?? "yok"} · sıcaklık sınırı={c?.ThermalLimitC.ToString() ?? "yok"} · boost={c?.BoostLimitGHz.ToString() ?? "yok"} · FCLK={c?.FclkMHz.ToString() ?? "yok"}");
+        }
+        File.WriteAllText(outFile, sb.ToString());
+    }
+
     private static string DeleteEngineTest(string sandbox)
     {
         var sb = new StringBuilder();

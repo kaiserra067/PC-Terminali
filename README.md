@@ -11,6 +11,16 @@ Arayüz Türkçedir; açık ve koyu temayı destekler.
 - Sürücüde en çok yer kaplayan klasörler ve dosya türlerine göre dağılım: video, oyun verisi, program, arşiv…
 - Temizlenebilir alan, kalıntılar, oyunlar ve uygulamalar için özet kutuları.
 
+### Donanım izleyici
+- İşlemci, ekran kartı ve bellek için anlık kullanım, sıcaklık ve saat hızı; son 60 saniyenin grafiği ve çekirdek başına kullanım.
+- Ekran kartı: sıcaklık, en sıcak nokta (hotspot), çekirdek ve bellek saati, fan, güç, VRAM.
+- Bellek: model (ör. G.Skill F5-6000J3038F16G), modüllerdeki **bellek çiplerinin üreticisi** (SK Hynix, Samsung, Micron…), şu an çalışan **saat ve zamanlamalar** (CL-tRCD-tRP-tRAS), FCLK/UCLK oranı.
+- **Ayarlar (tuning):**
+  - İşlemci: PBO durumu, PPT, akım ve sıcaklık sınırları, boost sınırı.
+  - AMD Radeon: voltaj ofseti (undervolt), güç limiti, frekans ofseti, VRAM saati, fan modu.
+- Yalnızca okur; hiçbir ayarı değiştirmez. İşlemci sıcaklığı, PBO, bellek çipi ve zamanlamalar için yönetici modu ve [PawnIO](https://pawnio.eu) sürücüsü gerekir; uygulama sürücüyü tek tıkla kurabilir.
+- Curve Optimizer değerleri okunamaz; okumak için işlemciye komut göndermek gerekir ve uygulama güvenlik için bunu yapmaz. PBO ayrıntıları, alan yerleri doğrulanmış işlemci güç tablosu sürümlerinde (şimdilik Zen 4 masaüstü) gösterilir; diğerlerinde yanlış değer göstermek yerine gizlenir.
+
 ### Disk analizi
 - Bir sürücüyü ya da klasörü saniyeler içinde tarar; yaklaşık 900 bin dosya birkaç saniye sürer.
 - Klasör klasör gezilebilen, sıralanabilir boyut listesi ve tıklanabilir **yer kaplama haritası** (treemap).
@@ -91,7 +101,7 @@ dotnet build PCTerminali.csproj -c Release
 powershell -ExecutionPolicy Bypass -File .\kur.ps1
 ```
 
-Teknolojiler: C# · WPF · .NET 8. Harici NuGet paketi kullanılmaz.
+Teknolojiler: C# · WPF · .NET 8. Donanım sensörleri için [LibreHardwareMonitorLib](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) (MPL-2.0) kullanılır.
 
 ## Veriler nerede?
 

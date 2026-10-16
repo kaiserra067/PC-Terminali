@@ -15,11 +15,16 @@
     <RootNamespace>TemizlikPaneli</RootNamespace>
     <Product>PC Terminali</Product>
     <AssemblyTitle>PC Terminali</AssemblyTitle>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <SatelliteResourceLanguages>tr</SatelliteResourceLanguages>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CA1416</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- İşlemci ve bellek sıcaklıkları (yönetici modunda, PawnIO sürücüsüyle) -->
+    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.6" />
+  </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\app.ico" />
